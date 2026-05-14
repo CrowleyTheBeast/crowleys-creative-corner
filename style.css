@@ -53,3 +53,21 @@ nav a:hover {
   background: #d4af37;
   color: #1b1325;
 }
+.project-list {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.project-card {
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  border-radius: 20px;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.project-card h2 {
+  color: #d4af37;
+  margin-top: 0;
+}
