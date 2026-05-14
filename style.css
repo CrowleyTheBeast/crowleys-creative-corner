@@ -71,3 +71,18 @@ nav a:hover {
   color: #d4af37;
   margin-top: 0;
 }
+.project-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #d4af37;
+  text-decoration: none;
+  border: 1px solid #d4af37;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.project-link:hover {
+  background: #d4af37;
+  color: #1b1325;
+}
