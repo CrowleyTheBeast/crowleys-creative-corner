@@ -91,3 +91,49 @@ nav a:hover {
   background: #d4af37;
   color: #1b1325;
 }
+.site-header {
+  width: 100%;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background: rgba(27, 19, 37, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.site-logo {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.top-nav {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.top-nav a {
+  color: #f5efe7;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.top-nav a:hover {
+  color: #d4af37;
+}
+
+main {
+  padding-top: 110px;
+}
