@@ -162,6 +162,8 @@ a:hover {
 /* ---------- Main Page Layout ---------- */
 main {
   width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .page-section {
@@ -341,20 +343,37 @@ li {
   color: var(--muted-text);
 }
 
-/* ---------- Footer ---------- */
-.site-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  margin-top: 3rem;
+/* ---------- Footer Links ---------- */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
 
-  background-color: #0e0c13;
-  border-top: 1px solid var(--border-gold);
+  padding: 1.5rem 1rem;
+  margin-top: 2rem;
 }
 
-.site-footer p {
-  color: var(--muted-text);
-  margin: 0;
-  font-size: 0.9rem;
+.footer-links a {
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  background: transparent;
+
+  text-decoration: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+
+  font-weight: bold;
+  font-size: 0.85rem;
+  line-height: 1;
+
+  transition: 0.2s ease;
+}
+
+.footer-links a:hover {
+  background-color: var(--gold);
+  color: var(--bg-main);
 }
 
 /* ---------- Small Decorative Divider ---------- */
