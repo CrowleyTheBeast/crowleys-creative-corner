@@ -10,18 +10,20 @@ body {
 }
 
 main {
-  max-width: 800px;
+  max-width: 900px;
   padding: 40px;
   text-align: center;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   margin-bottom: 1rem;
+  color: #d4af37;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
 }
 
 p {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1.6;
   margin-bottom: 2rem;
 }
@@ -31,17 +33,19 @@ nav {
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 nav a {
-  color: #f5efe7;
+  color: #d4af37;
   text-decoration: none;
-  border: 1px solid #f5efe7;
+  border: 1px solid #d4af37;
   padding: 0.75rem 1rem;
   border-radius: 999px;
+  font-weight: bold;
 }
 
 nav a:hover {
-  background: #f5efe7;
+  background: #d4af37;
   color: #1b1325;
 }
