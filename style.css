@@ -10,9 +10,13 @@ body {
 }
 
 main {
-  max-width: 900px;
+  max-width: 850px;
   padding: 40px;
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
@@ -23,6 +27,7 @@ h1 {
 }
 
 p {
+  max-width: 650px;
   font-size: 1.25rem;
   line-height: 1.6;
   margin-bottom: 2rem;
@@ -33,7 +38,6 @@ nav {
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 2rem;
 }
 
 nav a {
