@@ -111,10 +111,21 @@ nav a:hover {
 }
 
 .site-logo {
-  color: #d4af37;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.1rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.site-logo h1 {
+  color: var(--gold);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.site-logo p {
+  color: var(--muted-text);
+  font-size: 1rem;
+}
 }
 
 .top-nav {
