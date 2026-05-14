@@ -55,16 +55,21 @@ nav a:hover {
 }
 .project-list {
   display: grid;
-  gap: 1.5rem;
-  margin: 2rem 0;
+  gap: 0.5rem;
+  margin: 2.5rem 0;
   width: 100%;
 }
 
 .project-card {
-  border: 1px solid rgba(212, 175, 55, 0.6);
-  border-radius: 20px;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 1.5rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  text-align: left;
+}
+
+.project-card:last-child {
+  border-bottom: none;
 }
 
 .project-card h2 {
