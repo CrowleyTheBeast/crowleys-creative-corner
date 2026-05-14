@@ -4,19 +4,19 @@ body {
   font-family: Georgia, "Times New Roman", serif;
   background: linear-gradient(135deg, #1b1325, #2d1f3f, #3c2f5c);
   color: #f5efe7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 main {
+  min-height: 100vh;
   max-width: 850px;
+  margin: 0 auto;
   padding: 40px;
   text-align: center;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 h1 {
