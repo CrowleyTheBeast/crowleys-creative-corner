@@ -324,7 +324,23 @@ li {
 .quest-entry p {
   color: var(--muted-text);
 }
+/* ---------- Page Width / Centering ---------- */
 
+main {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.card,
+section {
+  max-width: 100%;
+}
+
+.content-card {
+  width: 100%;
+  box-sizing: border-box;
+}
 /* ---------- Footer Links ---------- */
 .footer-links {
   display: flex;
