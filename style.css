@@ -336,7 +336,13 @@ li {
   padding: 1.5rem 1rem;
   margin-top: 2rem;
 }
-
+.footer-logo {
+  width: 120px;
+  max-width: 40%;
+  height: auto;
+  display: block;
+  margin: 15px auto;
+}
 .footer-links a {
   color: var(--gold);
   border: 1px solid var(--gold);
