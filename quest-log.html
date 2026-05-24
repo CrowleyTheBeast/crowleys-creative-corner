@@ -3,239 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quest Log | Crowley's Creative Corner</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background-color: #1a1a2e;
-      color: #e8e0d0;
-      font-family: 'Crimson Pro', Georgia, serif;
-      font-size: 18px;
-      line-height: 1.8;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .page-wrap {
-      width: 100%;
-      max-width: 820px;
-      padding: 0 1.5rem 4rem;
-    }
-
-    /* Banner */
-    .site-banner {
-      display: block;
-      width: 100%;
-      max-width: 820px;
-      margin: 0 auto;
-    }
-    .site-banner img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Nav */
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 1.25rem 1rem;
-    }
-    nav a {
-      font-family: 'Cinzel', serif;
-      font-size: 13px;
-      letter-spacing: 0.06em;
-      color: #c9a84c;
-      text-decoration: none;
-      border: 1px solid #c9a84c;
-      border-radius: 999px;
-      padding: 5px 18px;
-      transition: background 0.2s, color 0.2s;
-    }
-    nav a:hover {
-      background: #c9a84c;
-      color: #1a1a2e;
-    }
-
-    /* Divider */
-    .divider {
-      border: none;
-      border-top: 1px solid #c9a84c33;
-      margin: 0.5rem 0 2rem;
-    }
-
-    /* Page heading */
-    .page-title {
-      font-family: 'Cinzel', serif;
-      color: #c9a84c;
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.03em;
-    }
-    .page-subtitle {
-      color: #a09070;
-      font-size: 17px;
-      font-style: italic;
-      margin-bottom: 2.5rem;
-    }
-
-    /* Quest Entry Card */
-    .quest-entry {
-      border: 1px solid #c9a84c33;
-      border-radius: 8px;
-      padding: 2rem 2.25rem;
-      margin-bottom: 2.5rem;
-      background: #1e1e35;
-    }
-
-    .entry-meta {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .entry-title {
-      font-family: 'Cinzel', serif;
-      color: #c9a84c;
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
-    .entry-date {
-      font-size: 12px;
-      color: #a09070;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .entry-opener {
-      font-style: italic;
-      color: #a09070;
-      font-size: 16px;
-      margin-bottom: 1.5rem;
-      padding-left: 1rem;
-      border-left: 2px solid #c9a84c55;
-    }
-
-    .entry-body p {
-      margin-bottom: 1rem;
-      color: #e8e0d0;
-    }
-    .entry-body em {
-      color: #a09070;
-      font-style: italic;
-    }
-
-    .entry-signoff {
-      margin-top: 1.5rem;
-      font-style: italic;
-      color: #a09070;
-      font-size: 16px;
-    }
-
-    .entry-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-    }
-    .tag {
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: #c9a84c;
-      border: 1px solid #c9a84c44;
-      border-radius: 999px;
-      padding: 3px 14px;
-    }
-
-    /* Community section */
-    .community-section {
-      margin-top: 1rem;
-    }
-    .section-title {
-      font-family: 'Cinzel', serif;
-      color: #c9a84c;
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      letter-spacing: 0.03em;
-    }
-    .community-section p {
-      color: #e8e0d0;
-      font-size: 17px;
-      margin-bottom: 1.25rem;
-    }
-
-    .btn-gold {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      color: #1a1a2e;
-      background: #c9a84c;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 24px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .btn-gold:hover { opacity: 0.85; }
-
-    /* Footer */
-    .site-footer {
-      margin-top: 4rem;
-      text-align: center;
-      padding-bottom: 2rem;
-    }
-    .site-footer img {
-      width: 60px;
-      height: auto;
-      margin-bottom: 0.75rem;
-      opacity: 0.85;
-    }
-    .site-footer p {
-      font-size: 13px;
-      color: #a09070;
-      letter-spacing: 0.04em;
-    }
-
-    @media (max-width: 600px) {
-      .quest-entry { padding: 1.25rem 1.25rem; }
-      .page-title { font-size: 22px; }
-    }
-  </style>
+  <title>Quest Log | Crowley’s Creative Corner</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div class="site-banner">
-    <img src="images/Banner for top of the website.png" alt="Crowley's Creative Corner" />
-  </div>
-
-  <div class="page-wrap">
-
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-      <a href="quest-log.html">Quest Log</a>
-      <a href="support.html">Support</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-
-    <hr class="divider" />
+  <body>
+  <header class="site-header">
+     <div class="top-image">
+  <img src="images/Banner for top of the website.png" alt="Crowley’s Creative Corner logo">
+</div>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="support.html">Support</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+ <hr class="divider" />
 
     <h1 class="page-title">Crowley's Quest Log</h1>
     <p class="page-subtitle">Updates, reflections, creative progress, and behind-the-scenes notes from Crowley's Creative Corner. This is the campfire journal — where the journey gets tracked one step at a time.</p>
@@ -280,20 +65,23 @@
       <a href="https://forms.gle/WNWQvRYqRCytQHMb9" class="btn-gold" target="_blank" rel="noopener">Submit to the Quest Board</a>
     </div>
 
+</section>
+
+   <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="support.html">Support</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</main>
+  <footer>
+  <div class="footer-image">
+    <img class="footer-logo" src="images/Small Circle CCC.png" alt="Crowley’s Creative Corner logo">
   </div>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <nav style="margin-bottom: 1rem;">
-      <a href="index.html" style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:.06em;color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;border-radius:999px;padding:4px 14px;margin:0 3px;">Home</a>
-      <a href="about.html" style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:.06em;color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;border-radius:999px;padding:4px 14px;margin:0 3px;">About</a>
-      <a href="projects.html" style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:.06em;color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;border-radius:999px;padding:4px 14px;margin:0 3px;">Projects</a>
-      <a href="support.html" style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:.06em;color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;border-radius:999px;padding:4px 14px;margin:0 3px;">Support</a>
-      <a href="contact.html" style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:.06em;color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;border-radius:999px;padding:4px 14px;margin:0 3px;">Contact</a>
-    </nav>
-    <img src="images/Small Circle CCC.png" alt="Crowley's Creative Corner logo" />
-    <p>© 2026 Crowley's Creative Corner. Built one quest at a time.</p>
-  </footer>
-
+  <p>
+    &copy; 2026 Crowley&rsquo;s Creative Corner. Built one quest at a time.
+  </p>
+</footer>
 </body>
 </html>
