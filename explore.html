@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore the World | Crowley's Creative Corner</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* --- World Cards (free section) --- */
+    .world-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+ 
+    .world-card {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-soft) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+ 
+    .world-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 14px var(--shadow-gold);
+    }
+ 
+    .world-card h3 {
+      color: var(--gold);
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+ 
+    .world-card p {
+      color: var(--muted-text);
+      font-size: 0.95rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+ 
+    .world-card .card-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted-text);
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      padding: 2px 10px;
+      margin-bottom: 0.6rem;
+    }
+ 
+    /* --- Arc Selector --- */
+    .arc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+ 
+    .arc-card {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-soft) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+ 
+    .arc-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 14px var(--shadow-gold);
+    }
+ 
+    .arc-card.selected {
+      border-color: var(--gold);
+      box-shadow: 0 0 22px var(--shadow-gold);
+    }
+ 
+    .arc-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted-text);
+      margin-bottom: 0.35rem;
+    }
+ 
+    .arc-title {
+      color: var(--gold);
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+ 
+    .arc-chapters {
+      font-size: 0.8rem;
+      color: var(--muted-text);
+      font-style: italic;
+      margin-bottom: 0.6rem;
+    }
+ 
+    .arc-desc {
+      color: var(--parchment);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+ 
+    .arc-lock {
+      font-size: 0.78rem;
+      color: var(--ember);
+      margin-top: 0.6rem;
+      font-style: italic;
+    }
+ 
+    /* --- Content Panel --- */
+    #content-panel {
+      display: none;
+      margin-top: 2rem;
+    }
+ 
+    #content-panel.visible {
+      display: block;
+    }
+ 
+    .panel-title {
+      color: var(--gold);
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 0.2rem;
+    }
+ 
+    .panel-subtitle {
+      color: var(--muted-text);
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+ 
+    .spoiler-warning {
+      background: rgba(199, 107, 58, 0.1);
+      border: 1px solid var(--ember);
+      border-radius: 12px;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 1.25rem;
+      color: var(--ember);
+      font-size: 0.88rem;
+      font-style: italic;
+    }
+ 
+    .content-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+ 
+    .tab-btn {
+      font-family: Georgia, serif;
+      font-size: 0.83rem;
+      color: var(--gold);
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+ 
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--gold);
+      color: var(--bg-main);
+      border-color: var(--gold);
+    }
+ 
+    .content-item {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-soft) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 0.9rem;
+    }
+ 
+    .content-item h3 {
+      color: var(--gold);
+      margin: 0 0 0.4rem;
+      font-size: 1.05rem;
+    }
+ 
+    .content-item p {
+      color: var(--muted-text);
+      font-size: 0.93rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+ 
+    .content-item .intro-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--teal);
+      border-radius: 999px;
+      padding: 2px 9px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+ 
+    .coming-soon-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ember);
+      border: 1px solid var(--ember);
+      border-radius: 999px;
+      padding: 2px 9px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+ 
+    .locked-item {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-soft) 100%);
+      border: 1px dashed var(--border-gold);
+      border-radius: 14px;
+      padding: 1rem 1.4rem;
+      margin-bottom: 0.9rem;
+      opacity: 0.5;
+    }
+ 
+    .locked-item h3 {
+      color: var(--muted-text);
+      margin: 0 0 0.3rem;
+      font-size: 1rem;
+    }
+ 
+    .locked-item p {
+      color: var(--muted-text);
+      font-size: 0.88rem;
+      font-style: italic;
+      margin: 0;
+    }
+ 
+    @media (max-width: 600px) {
+      .arc-grid, .world-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <header class="site-header">
+    <div class="top-image">
+      <img src="images/Banner for top of the website.png" alt="Crowley's Creative Corner" />
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="quest-log.html">Quest Log</a>
+      <a href="support.html">Support</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+ 
+  <main>
+    <section class="page-section">
+ 
+      <h2>Explore the World</h2>
+      <p style="text-align:center; margin-bottom: 2rem;">The world of Dimensional Mage is open to explore — some of it freely, some of it earned. Base worldbuilding is available to everyone. If you're reading the book, select your arc below to unlock content as it's introduced to you.</p>
+ 
+      <div class="divider"></div>
+ 
+      <!-- ==============================
+           FREE WORLDBUILDING SECTION
+           ============================== -->
+      <div class="content-box" style="margin-bottom: 2rem;">
+        <h2>The World — Free to Explore</h2>
+        <p>No spoilers here. This is the world as it exists before the story begins — the bones of the setting, open to anyone who wants to look around.</p>
+ 
+        <!-- TABS: free worldbuilding -->
+        <div class="content-tabs" style="margin-top: 1.25rem;">
+          <button class="tab-btn active" onclick="switchFreeTab('overview', this)">Overview</button>
+          <button class="tab-btn" onclick="switchFreeTab('cities', this)">The Six Cities</button>
+          <button class="tab-btn" onclick="switchFreeTab('magic', this)">Magic & Resonance</button>
+          <button class="tab-btn" onclick="switchFreeTab('layers', this)">The Three Layers</button>
+          <button class="tab-btn" onclick="switchFreeTab('scar', this)">The Great Scar</button>
+        </div>
+ 
+        <div id="free-tab-contents">
+ 
+          <!-- OVERVIEW -->
+          <div id="free-overview" class="free-tab active">
+            <div class="world-grid">
+              <div class="world-card">
+                <span class="card-tag">Setting</span>
+                <h3>A World After Something</h3>
+                <p>This world carries the weight of an event it didn't fully survive. The Great Scar is the most visible mark — but the real damage is in the systems, the cities, and the people who grew up inside them.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Technology</span>
+                <h3>Early Magical Industrial</h3>
+                <p>Not medieval. Not cyberpunk. Think rune-powered lifts, artificer lamps, magical transit rails, and mechanical prosthetics. A society moving faster than its people can emotionally handle.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Guilds</span>
+                <h3>The Guild System</h3>
+                <p>Guilds are the scaffolding of this world — labor, protection, trade, and ideology all run through them. What a guild should actually be — money, protection, community, or purpose — is one of the story's central questions.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Theme</span>
+                <h3>Broken People</h3>
+                <p>The world of Dimensional Mage is not interested in chosen heroes. It is interested in people who were shaped by damage, made hard choices, and had to decide what kind of person to become with what was left.</p>
+              </div>
+            </div>
+          </div>
+ 
+          <!-- SIX CITIES -->
+          <div id="free-cities" class="free-tab" style="display:none;">
+            <div class="world-grid">
+              <div class="world-card">
+                <span class="card-tag">City 1</span>
+                <h3>The Village</h3>
+                <p>Connection. Roots. The place people come from and can't fully leave behind, even when they try. Small, stable, and important in ways that don't show up on maps.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">City 2</span>
+                <h3>Small Valley City</h3>
+                <p>Survival. The city that wants stability above everything else. Structured, careful, and sitting on tensions it would rather not look at directly.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">City 3</span>
+                <h3>Far-Side Town</h3>
+                <p>A crossroads town that moves fast and asks few questions. Work flows through here from multiple directions — some honest, most complicated. The Upper City hides its corruption behind paperwork. Far-Side Town hides it behind tavern doors.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">City 4</span>
+                <h3>The Upper City</h3>
+                <p>Ambition. A society evolving faster than its people can emotionally handle. Rune-powered infrastructure, guild politics, and a surface shine that sits on top of systems actively failing people at the bottom.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">City 5</span>
+                <h3>Ocean City</h3>
+                <p>Movement and trade. Sea monster harvesting, shipwright guilds, and a hidden underside beneath the docks where smugglers and secrets share the same waterlogged spaces.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">City 6</span>
+                <h3>The Lower City</h3>
+                <p>Below the shine of the Upper City. Where people actually live when the lifts don't reach them. Relevant to more of this story than most characters want to admit.</p>
+              </div>
+            </div>
+          </div>
+ 
+          <!-- MAGIC -->
+          <div id="free-magic" class="free-tab" style="display:none;">
+            <div class="world-grid">
+              <div class="world-card">
+                <span class="card-tag">Foundation</span>
+                <h3>What Is Resonance?</h3>
+                <p>Magic in this world is tied to resonance — the emotional, physical, and dimensional frequency a person carries. It responds to the user's internal state. A calm mage casts differently than a frightened one.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Instability</span>
+                <h3>When It Goes Wrong</h3>
+                <p>Resonance that isn't understood or controlled reflects what the user suppresses. For most mages, this is manageable. For some, it becomes a liability — or a weapon they didn't choose to carry.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Nodes</span>
+                <h3>Resonance Nodes</h3>
+                <p>Places where resonance has pooled and concentrated over time — sometimes naturally, sometimes by design. Nodes affect everyone nearby, but especially those with unstable or powerful resonance of their own.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">The Unknown</span>
+                <h3>The Dimensional Layer</h3>
+                <p>Beyond resonance, there are dimensions — layers of reality that sit adjacent to this one. The Great Scar is connected to this. So is the kind of magic that doesn't have clean edges. More detail unlocks with the story.</p>
+              </div>
+            </div>
+          </div>
+ 
+          <!-- LAYERS -->
+          <div id="free-layers" class="free-tab" style="display:none;">
+            <div class="world-grid">
+              <div class="world-card">
+                <span class="card-tag">Top Layer</span>
+                <h3>The Surface World</h3>
+                <p>Where people live, trade, build, and govern. The layer most people experience as simply "the world." Its rules feel stable until something from below pushes through.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Middle Layer</span>
+                <h3>The In-Between</h3>
+                <p>The layer where resonance is most active — where magic practitioners work, where the guild systems intersect with deeper forces, and where information that isn't meant to be public tends to travel.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Bottom Layer</span>
+                <h3>The Deep</h3>
+                <p>What sits beneath everything else. Connected to the Scar. Not fully understood by anyone in the story. The things that live here are not always what they appear to be from above.</p>
+              </div>
+            </div>
+          </div>
+ 
+          <!-- SCAR -->
+          <div id="free-scar" class="free-tab" style="display:none;">
+            <div class="world-grid">
+              <div class="world-card">
+                <span class="card-tag">The Event</span>
+                <h3>What Happened</h3>
+                <p>Something tore this world open. The Godly Joining — a convergence of forces larger than any one faction could control — left a mark that never fully closed. The Great Scar is where that mark is most visible.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">The Present</span>
+                <h3>Living With It</h3>
+                <p>People work near the Scar. Some study it. Some profit from it. Some are changed by proximity to it in ways they don't fully understand. The world built its infrastructure around the wound instead of healing it.</p>
+              </div>
+              <div class="world-card">
+                <span class="card-tag">Symbolism</span>
+                <h3>What It Means</h3>
+                <p>The Scar is the story's largest external mirror. It represents truth, change, trauma, and the unknown — all things the characters are also carrying in miniature inside themselves.</p>
+              </div>
+            </div>
+          </div>
+ 
+        </div>
+      </div>
+ 
+      <!-- ==============================
+           READER ARC PATH
+           ============================== -->
+      <div class="content-box">
+        <h2>Reader's Path</h2>
+        <p>Reading the book? Select your arc below. Content unlocks based on what's been introduced to you — characters, locations, lore, magic, and NPC side quest perspectives. No spoilers you haven't earned.</p>
+        <p style="margin-top: 0.75rem; font-style: italic; font-size: 0.9rem; color: var(--muted-text);">If you haven't started yet, select the first option. If you've finished, you get everything.</p>
+ 
+        <div class="arc-grid" id="arc-selector">
+ 
+          <div class="arc-card" onclick="selectArc(0)" id="arc-0">
+            <div class="arc-label">Starting Point</div>
+            <div class="arc-title">Haven't Started Yet</div>
+            <div class="arc-chapters">No chapters read</div>
+            <p class="arc-desc">Just the world from the outside. No character spoilers, no plot reveals.</p>
+          </div>
+ 
+          <div class="arc-card" onclick="selectArc(1)" id="arc-1">
+            <div class="arc-label">Arc One</div>
+            <div class="arc-title">The Road Begins</div>
+            <div class="arc-chapters">Chapters 1–2</div>
+            <p class="arc-desc">The party forms. The first hunt fails. Asheron is running from something he hasn't named yet.</p>
+          </div>
+ 
+          <div class="arc-card" onclick="selectArc(2)" id="arc-2">
+            <div class="arc-label">Arc Two</div>
+            <div class="arc-title">False Freedom</div>
+            <div class="arc-chapters">Chapters 3–5</div>
+            <p class="arc-desc">The money is good. The parties are loud. Asheron is wrong about most of what he thinks he wants.</p>
+          </div>
+ 
+          <div class="arc-card" onclick="selectArc(3)" id="arc-3">
+            <div class="arc-label">Arc Three</div>
+            <div class="arc-title">The Bound Order</div>
+            <div class="arc-chapters">Chapters 6–10</div>
+            <p class="arc-desc">The contract looks simple. It isn't. Someone knows a name Asheron hasn't told anyone.</p>
+            <div class="arc-lock">⚠ Contains significant spoilers</div>
+          </div>
+ 
+          <div class="arc-card" onclick="selectArc(4)" id="arc-4">
+            <div class="arc-label">Arc Four</div>
+            <div class="arc-title">The Quiet Room</div>
+            <div class="arc-chapters">Chapters 11–13</div>
+            <p class="arc-desc">They won. Some of them had money in their pockets that Asheron didn't know about.</p>
+            <div class="arc-lock">⚠ Major spoilers</div>
+          </div>
+ 
+          <div class="arc-card" onclick="selectArc(5)" id="arc-5">
+            <div class="arc-label">Completed</div>
+            <div class="arc-title">Finished Book One</div>
+            <div class="arc-chapters">Full access</div>
+            <p class="arc-desc">Everything unlocked. You've earned it.</p>
+          </div>
+ 
+        </div>
+ 
+        <!-- CONTENT PANEL -->
+        <div id="content-panel">
+ 
+          <div style="margin-top: 2rem;">
+            <div class="panel-title" id="panel-title"></div>
+            <div class="panel-subtitle" id="panel-subtitle"></div>
+          </div>
+ 
+          <div id="spoiler-warning" class="spoiler-warning" style="display:none;">
+            🔥 You've selected an arc with spoilers. Content below reveals story events, character secrets, and plot turns. Only read on if you're ready.
+          </div>
+ 
+          <div class="content-tabs" id="tab-row"></div>
+          <div id="tab-contents"></div>
+ 
+        </div>
+ 
+      </div>
+ 
+    </section>
+  </main>
+ 
+  <footer>
+    <nav class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="support.html">Support</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <img src="images/Small Circle CCC.png" alt="Crowley's Creative Corner logo" class="footer-logo" />
+    <p style="text-align:center; color: var(--muted-text); font-size: 0.85rem; padding-bottom: 1.5rem;">© 2026 Crowley's Creative Corner. Built one quest at a time.</p>
+  </footer>
+ 
+  <script>
+    // Free worldbuilding tab switcher
+    function switchFreeTab(name, btn) {
+      document.querySelectorAll('.free-tab').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('free-' + name).style.display = 'block';
+      btn.classList.add('active');
+    }
+ 
+    // Arc data — what unlocks at each tier
+    const arcs = [
+      {
+        title: "Haven't Started Yet",
+        subtitle: "The world from the outside — no character spoilers, no plot reveals.",
+        spoiler: false,
+        tabs: ["Characters", "Locations", "Magic", "Dev Notes"],
+        content: {
+          "Characters": [
+            { name: "Asheron Gerik", desc: "The main character. A man with unstable magic and a past he doesn't talk about. Funny, sharp, and carrying more than he lets on. That's all you get for now.", tag: null },
+            { name: "The Party", desc: "A group of hunters who didn't plan to become a team. They're still figuring that out.", tag: null }
+          ],
+          "Locations": [
+            { name: "The World at a Glance", desc: "Six cities, one Scar, three layers. The full breakdown is in the free worldbuilding section above — explore that first.", tag: null }
+          ],
+          "Magic": [
+            { name: "Resonance — The Short Version", desc: "Magic responds to the person using it. Emotionally, physically, dimensionally. For some people that's a gift. For Asheron it's complicated. Start with the free Magic & Resonance tab for the foundation.", tag: null }
+          ],
+          "Dev Notes": [
+            { name: "Where This All Started", desc: "Dimensional Mage has been building for years — in notes, character sheets, and worldbuilding files. The Quest Log tracks how it's all coming together in real time.", tag: null }
+          ]
+        }
+      },
+      {
+        title: "Arc One — The Road Begins",
+        subtitle: "Chapters 1–2 · Far-Side Town · Party Formation",
+        spoiler: false,
+        tabs: ["Characters", "Locations", "Magic", "NPC Side Quests", "Dev Notes"],
+        content: {
+          "Characters": [
+            { name: "Asheron Gerik", desc: "Just left something he doesn't explain. Running under the name Gerik. His magic is unstable in ways that make other hunters nervous — he jokes about it instead of addressing it.", tag: "introduced" },
+            { name: "Aurelia Cael", desc: "Discipline and idealism in a messy crossroads town. She assembles the party because she recognises that a good idea and a good group aren't the same thing.", tag: "introduced" },
+            { name: "Bramm Halfgate", desc: "Thrives in Far-Side Town. Big, loud, opportunistic. He and Asheron have a dynamic that works — until it doesn't.", tag: "introduced" },
+            { name: "Selka Morvain", desc: "Four arms. Knows this town's tricks. Not immediately trusting of anyone who doesn't.", tag: "introduced" },
+            { name: "The Druid Acquaintance", desc: "Present for the failed first hunt. Knows the outer roads, monster patterns, and old trail signs.", tag: "introduced" }
+          ],
+          "Locations": [
+            { name: "Far-Side Town", desc: "A crossroads town that moves fast and asks few questions. Work comes from multiple directions here — some honest, most complicated. This is where the story begins.", tag: "introduced" },
+            { name: "Small Valley City", desc: "Appears as a convoy escort route early on. Stable, structured — already a contrast to Far-Side Town.", tag: "introduced" },
+            { name: "The Other Four Cities", desc: "Not yet visited. Their base overviews are in the free worldbuilding section above.", tag: null }
+          ],
+          "Magic": [
+            { name: "Resonance in the Field", desc: "Magic responds to emotional state. A calm mage casts differently than a frightened one. Asheron's resonance is darker than average — especially under pressure. He has strategies for hiding this.", tag: "introduced" }
+          ],
+          "NPC Side Quests": [
+            { name: "The Druid — Between Hunts", desc: "What was their read on Asheron during that failed hunt? What do they see that the others miss?", tag: "coming-soon" },
+            { name: "Far-Side Town Locals", desc: "The town has no shortage of people with small problems and useful information.", tag: "coming-soon" }
+          ],
+          "Dev Notes": [
+            { name: "Why Start in Far-Side Town", desc: "Far-Side Town gives Asheron anonymity and motion — two things he mistakes for healing. The failed hunt forces the group together before they're ready to be a group.", tag: null }
+          ]
+        }
+      },
+      {
+        title: "Arc Two — False Freedom",
+        subtitle: "Chapters 3–5 · Upper City · The Bramm Era",
+        spoiler: false,
+        tabs: ["Characters", "Locations", "Magic", "NPC Side Quests", "Dev Notes"],
+        content: {
+          "Characters": [
+            { name: "Asheron", desc: "The Upper City feeds his ego, his humor, his desire to belong — and his fear of failure. He is not healing here. He is moving. Those feel similar and aren't.", tag: "expanded" },
+            { name: "Bramm Halfgate", desc: "In his element. Money, parties, attention, fights. The Upper City gives him scale. This version of Bramm is the most fun and the most dangerous.", tag: "expanded" },
+            { name: "Selka", desc: "Testing whether these people are worth trusting. The Upper City gives her a lot of information to work with.", tag: "expanded" },
+            { name: "Aurelia", desc: "Morally frustrated by the Upper City. She sees corruption dressed in clean paperwork and people treating justice like a contract detail.", tag: "expanded" }
+          ],
+          "Locations": [
+            { name: "The Upper City", desc: "A society evolving faster than its people emotionally can handle. Rune-powered lifts, artificer lamps, magical transit rails. Exciting, freeing, overwhelming, and dangerous — sometimes all at once.", tag: "introduced" },
+            { name: "The Lower City", desc: "Below the shine. Where Asheron actually comes from, even if he doesn't say so much in public.", tag: "introduced" }
+          ],
+          "Magic": [
+            { name: "Resonance in Dense Spaces", desc: "The Upper City — crowded, loud, emotionally charged — affects how resonance behaves. Asheron's magic becomes harder to predict in dense social situations. He has workarounds. They're not always enough.", tag: "expanded" }
+          ],
+          "NPC Side Quests": [
+            { name: "Upper City Contacts", desc: "The party picks up work contacts during this arc. Some matter more later than they appear to now.", tag: "coming-soon" }
+          ],
+          "Dev Notes": [
+            { name: "The False Freedom Arc", desc: "This arc is Asheron mistaking motion for healing — a pattern that started in childhood and repeats here with more expensive scenery. The Upper City makes it easy to feel like things are fine.", tag: null }
+          ]
+        }
+      },
+      {
+        title: "Arc Three — The Bound Order",
+        subtitle: "Chapters 6–10 · The Cult Arc · Corvin",
+        spoiler: true,
+        tabs: ["Characters", "Locations", "Magic", "NPC Side Quests", "Dev Notes"],
+        content: {
+          "Characters": [
+            { name: "Corvin Drail", desc: "A contractor who needed new income and found the wrong solution. Not a monster — a man who made increasingly expensive choices and then stopped being able to afford to stop.", tag: "introduced" },
+            { name: "Fenric Drail", desc: "Corvin's son. Kept away from the truth of what his father does. The jail scene is the moment the relationship ends — not with a fight, but with two words and a closed door.", tag: "introduced" },
+            { name: "The Political Man", desc: "Introduced Corvin to the Bound Order. Has leverage. Uses it. Name TBD in current draft.", tag: "introduced" }
+          ],
+          "Locations": [
+            { name: "The Bound Order's Reach", desc: "Operates through outer layers of respectability and inner layers of ritual. The resonance node beneath the Upper City is their anchor — and a serious problem for Asheron.", tag: "introduced" },
+            { name: "Ocean City Connections", desc: "The Bound Order has reach beyond the Upper City. Ocean City's under-dock layers connect to their supply and infrastructure.", tag: "introduced" }
+          ],
+          "Magic": [
+            { name: "Resonance Nodes — Up Close", desc: "The cult's node creates dimensional pressure that interacts badly with Asheron's power specifically. What he experiences here is different from anything he's managed before.", tag: "expanded" },
+            { name: "Dimensional Pressure", desc: "The node beneath the city is the first time Asheron encounters something that doesn't just destabilise his power — it pulls at the dimensional layer underneath it.", tag: "introduced" }
+          ],
+          "NPC Side Quests": [
+            { name: "Bound Order Outer Members", desc: "Not everyone inside is inner circle. Some are afraid, some owe debts, some stumbled in too deep. What do they see from the outside?", tag: "coming-soon" },
+            { name: "Fenric — Between Scenes", desc: "Kept busy while Corvin works. What does his life look like in those gaps?", tag: "coming-soon" }
+          ],
+          "Dev Notes": [
+            { name: "Building Corvin", desc: "Corvin works as an antagonist because he isn't built as a villain. He's a man who crossed a line and then had to keep defending the crossing. The arc is about dismantling a system — and what it costs to look at someone familiar and keep going anyway.", tag: null }
+          ]
+        }
+      },
+      {
+        title: "Arc Four — The Quiet Room",
+        subtitle: "Chapters 11–13 · Post-Arc · Party Fracture",
+        spoiler: true,
+        tabs: ["Characters", "Locations", "Magic", "NPC Side Quests", "Dev Notes"],
+        content: {
+          "Characters": [
+            { name: "Asheron", desc: "He told them who Corvin was. The room went quiet. He watched their faces and counted the things he didn't know about the people he trusted. That changes something.", tag: "expanded" },
+            { name: "Bramm", desc: "He took money. He had reasons. He also knew what the job was. Those two things don't cancel each other out.", tag: "expanded" },
+            { name: "Selka", desc: "She took information instead of gold. That choice says something about what she values — and what she was planning.", tag: "expanded" },
+            { name: "Corvin", desc: "He survived. He recognised Asheron's face. He filed it away and said nothing. He will be back.", tag: "expanded" },
+            { name: "Maera", desc: "Has information about Fenric's existence. Asheron finds out she knew. That conversation is its own kind of quiet room.", tag: "introduced" }
+          ],
+          "Locations": [
+            { name: "The Party's Fracture Line", desc: "They won. The Bound Order is dismantled. The cost was learning that trust has an architecture — and some of those beams were quietly rotting.", tag: null }
+          ],
+          "Magic": [
+            { name: "After the Node", desc: "The dimensional pressure leaves traces. Asheron's magic shifts — what he can and can't control changes. The stabilisation is slow.", tag: "expanded" }
+          ],
+          "NPC Side Quests": [
+            { name: "What Maera Knew — and When", desc: "Her knowledge of Fenric's existence predates the arc. When did she decide to say nothing? What was she protecting?", tag: "coming-soon" },
+            { name: "Corvin Post-Arc", desc: "He survived. He's recalculating. What does that look like from where he's standing?", tag: "coming-soon" }
+          ],
+          "Dev Notes": [
+            { name: "Why the Room Goes Quiet", desc: "The reveal was always designed to land without a monologue. Asheron says it plainly. The weight is in what everyone else does with their hands.", tag: null }
+          ]
+        }
+      },
+      {
+        title: "Book One Complete — Full Access",
+        subtitle: "You've earned everything. All content unlocked.",
+        spoiler: true,
+        tabs: ["Characters", "Locations", "Magic", "NPC Side Quests", "Dev Notes", "Deep Lore"],
+        content: {
+          "Characters": [
+            { name: "Full Character Archive", desc: "All character sheets, arc notes, and relationship maps — Asheron, Bramm, Selka, Aurelia, Corvin, Fenric, Maera, Varek, Kieran, Cassia, Tavian, Ida, and more.", tag: "coming-soon" }
+          ],
+          "Locations": [
+            { name: "All Six Cities — Full Breakdowns", desc: "Complete location files with story connections, emotional meaning, and what each place costs the characters who pass through it.", tag: "coming-soon" },
+            { name: "The Three Layers — Full Detail", desc: "Top, Middle, and Bottom — structurally, socially, and magically. How they interact and what lives in each.", tag: "coming-soon" }
+          ],
+          "Magic": [
+            { name: "Full Resonance System", desc: "How it works, how it's trained, how it breaks, and what Asheron's version of it means going forward.", tag: "coming-soon" },
+            { name: "The Dark Realm System", desc: "The dimensional layer Asheron brushes against throughout Book One. What it is, how it connects to the Scar, and why Asheron is not a safe person to stand next to when it activates.", tag: "coming-soon" }
+          ],
+          "NPC Side Quests": [
+            { name: "Full NPC Archive", desc: "All side quest content — perspectives from NPCs who exist without Asheron, their small decisions that connect to the bigger story.", tag: "coming-soon" }
+          ],
+          "Dev Notes": [
+            { name: "Full Behind-the-Scenes", desc: "The building process, decisions made, placeholders that became canon, and what changed between draft one and what you read.", tag: "coming-soon" }
+          ],
+          "Deep Lore": [
+            { name: "The Lantern Way Guild", desc: "Where Asheron ends up. Why it matters. What the name means and where the symbolism comes from.", tag: "coming-soon" },
+            { name: "The Godly Joining", desc: "The event that shaped the world before the story begins. Not everything here is public knowledge in-world.", tag: "coming-soon" },
+            { name: "The Great Scar — Full Truth", desc: "What it actually is. Not just the surface version.", tag: "coming-soon" }
+          ]
+        }
+      }
+    ];
+ 
+    let currentArc = null;
+ 
+    function selectArc(index) {
+      document.querySelectorAll('.arc-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('arc-' + index).classList.add('selected');
+ 
+      const arc = arcs[index];
+      currentArc = index;
+ 
+      document.getElementById('panel-title').textContent = arc.title;
+      document.getElementById('panel-subtitle').textContent = arc.subtitle;
+ 
+      const warning = document.getElementById('spoiler-warning');
+      warning.style.display = arc.spoiler ? 'block' : 'none';
+ 
+      const tabRow = document.getElementById('tab-row');
+      tabRow.innerHTML = '';
+      arc.tabs.forEach((tab, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+        btn.textContent = tab;
+        btn.onclick = () => switchArcTab(tab, btn);
+        tabRow.appendChild(btn);
+      });
+ 
+      switchArcTab(arc.tabs[0], tabRow.firstChild);
+ 
+      const panel = document.getElementById('content-panel');
+      panel.style.display = 'block';
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+ 
+    function switchArcTab(tabName, btnEl) {
+      document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+ 
+      const arc = arcs[currentArc];
+      const items = arc.content[tabName] || [];
+      const container = document.getElementById('tab-contents');
+      container.innerHTML = '';
+ 
+      if (items.length === 0) {
+        container.innerHTML = '<div class="content-item"><p>Content coming soon.</p></div>';
+        return;
+      }
+ 
+      items.forEach(item => {
+        const div = document.createElement('div');
+ 
+        let tagHtml = '';
+        if (item.tag === 'introduced') {
+          tagHtml = '<span class="intro-tag">Introduced</span>';
+        } else if (item.tag === 'expanded') {
+          tagHtml = '<span class="intro-tag" style="color:var(--gold-soft);border-color:var(--gold-soft);">Expanded</span>';
+        } else if (item.tag === 'coming-soon') {
+          tagHtml = '<span class="coming-soon-tag">Coming Soon</span>';
+        }
+ 
+        if (item.tag === 'coming-soon') {
+          div.className = 'content-item';
+          div.innerHTML = '<h3>' + item.name + tagHtml + '</h3><p>' + item.desc + '</p>';
+        } else {
+          div.className = 'content-item';
+          div.innerHTML = '<h3>' + item.name + tagHtml + '</h3><p>' + item.desc + '</p>';
+        }
+        container.appendChild(div);
+      });
+    }
+  </script>
+ 
+</body>
+</html>
+ 
