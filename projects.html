@@ -7,67 +7,113 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
- 
   <header class="site-header">
     <div class="top-image">
       <img src="images/Banner for top of the website.png" alt="Crowley's Creative Corner" />
     </div>
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="quest-log.html">Quest Log</a>
+      <a href="explore.html">Explore</a>
+      <a href="community-building.html">Community</a>
+      <a href="support.html">Support</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-section projects-page">
+      <h1>Projects in the Workshop</h1>
+      <p class="page-intro">Welcome to the workbench: a small, creator-owned corner where original games, fantasy worlds, and community ideas are becoming real projects at very different stages. Some have sturdy foundations. Some still have sawdust in places sawdust should not be. All of them are being built honestly, one quest at a time.</p>
+
+      <div class="divider"></div>
+
+      <section aria-labelledby="active-projects-heading">
+        <h2 id="active-projects-heading">Active Projects</h2>
+        <div class="project-grid">
+          <article class="project-card">
+            <p class="project-category">Idle Evolution and Resource-Management Game</p>
+            <h3>Guck</h3>
+            <p class="project-status"><span class="status-label">Status</span> Active Development <span aria-hidden="true">—</span> Particle Era</p>
+            <p>Guck is an original Godot game about helping a strange, flat being understand existence by absorbing, balancing, transforming, and eventually automating matter.</p>
+            <p>The current focus is turning the early Particle Era into a satisfying idle loop with clear stages, automation, meaningful upgrades, progression, saving, and Android support.</p>
+            <a href="#guck-development-log" class="button secondary">Read the Development Log</a>
+          </article>
+
+          <article class="project-card">
+            <p class="project-category">Supernatural Abyss-Defense Game</p>
+            <h3>Abyss Guardians</h3>
+            <p class="project-status"><span class="status-label">Status</span> Active Development <span aria-hidden="true">—</span> Core Vertical Slice</p>
+            <p>Abyss Guardians is an original Godot game about two guardians stationed on opposite sides of a supernatural abyss. It is being developed as a focused single-player experience first; cooperative possibilities may be explored later.</p>
+            <a href="#abyss-guardians-development-log" class="button secondary">Read the Development Log</a>
+          </article>
+
+          <article class="project-card">
+            <p class="project-category">High-Fantasy Saga</p>
+            <h3>Dimensional Mage</h3>
+            <p class="project-status"><span class="status-label">Status</span> Novel and World in Development</p>
+            <p>Dimensional Mage follows Asheron, a man carrying dangerous dimensional magic and wounds that do not stay neatly in the past. It is a story of found family, trauma and responsibility, moral complexity, and hard-earned healing.</p>
+            <p>At its heart is a difficult question: can someone who has caused harm, suffered harm, and carries real darkness still become a source of light?</p>
+            <a href="dimensional-mage.html" class="button secondary">Enter the World</a>
+          </article>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="development-logs" aria-labelledby="development-logs-heading">
+        <h2 id="development-logs-heading">From the Development Journal</h2>
+        <p class="section-intro">A little more from the workbench—not the entire blueprint cabinet, just the notes currently pinned on top.</p>
+
+        <article class="content-box development-note" id="guck-development-log">
+          <p class="project-category">Guck Development Log</p>
+          <h3>Building the Particle Era</h3>
+          <p>Guck’s journey begins with Light and Dark Matter, then expands through particles, elements, molecules, organic systems, and eventually living organisms. Each era is meant to build naturally on what came before, turning simple matter into increasingly complex systems.</p>
+          <p>The current work is about making that first era feel good to play: balancing resource flow and capacity, making composition choices matter, creating upgrades with noticeable purpose, and letting automation take over parts of an era once they have been understood. Saving and Android support are also part of building a reliable foundation.</p>
+          <p>That direction replaces the older ideas involving health, lives, and combat. Dark Matter is a resource to understand and balance—not an enemy to destroy.</p>
+          <a href="quest-log.html#quest-log-3" class="text-link">Read the July workshop update</a>
+        </article>
+
+        <article class="content-box development-note" id="abyss-guardians-development-log">
+          <p class="project-category">Abyss Guardians Development Log</p>
+          <h3>Strengthening the Core</h3>
+          <p>Abyss Guardians has been built through a substantial sequence of carefully tested stages. That process has established a meaningful core milestone and confirmed the current foundation through runtime testing.</p>
+          <p>The next work will build carefully from that verified single-player foundation while keeping the two guardians, the opposing sides of the abyss, and the project’s supernatural-defense identity clear and focused.</p>
+          <a href="quest-log.html#quest-log-3" class="text-link">Read the July workshop update</a>
+        </article>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="workshop-growth" aria-labelledby="workshop-growth-heading">
+        <h2 id="workshop-growth-heading">Growing Around the Workshop</h2>
+        <article class="project-card project-card-secondary">
+          <p class="project-category">Community Building <span aria-hidden="true">·</span> The Lantern Way</p>
+          <h3>A Future Guild Hall</h3>
+          <p class="project-status"><span class="status-label">Status</span> Foundation Building</p>
+          <p>This is the community-facing side of Crowley's Creative Corner: a longer-term hope for a guild-hall-style space where creators, players, and dreamers can gather around shared quests, encouragement, creative challenges, videos, streams, and collaborative projects.</p>
+          <p>The lanterns are being hung and the foundations are being considered. For now, this is a direction being built toward—not a finished program or membership hall.</p>
+          <a href="community-building.html" class="button secondary">Visit the Community Page</a>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <nav class="footer-links" aria-label="Footer navigation">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="projects.html">Projects</a>
       <a href="quest-log.html">Quest Log</a>
       <a href="explore.html">Explore</a>
-      <a href="support.html">Support</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
- 
-  <main>
-    <section class="page-section">
- 
-      <h2>Projects</h2>
-      <p style="text-align:center; margin-bottom: 2rem;">This is the workshop — the place where ideas stop living in my head and start becoming something real. Stories, worlds, games, community spaces, and creative experiments, all built one step at a time. Some of these are years in the making. Some are brand new sparks. All of them matter.</p>
- 
-      <div class="divider"></div>
- 
-      <div class="project-list">
- 
-        <div class="project-card">
-          <h3>Dimensional Mage</h3>
-          <p>A High-Fantasy saga about a trauma-shaped man who learns to turn his wounds into something the world actually needs. Magic, found family, dimensional chaos, hard-earned healing, and the question that drives the whole thing: can someone who has caused harm and carries darkness still become a source of light? This one's been living in my head for a long time. It's finally getting out.</p>
-          <a href="dimensional-mage.html" class="button secondary" style="margin-top: 1rem; display: inline-block;">Open Project</a>
-        </div>
- 
-        <div class="project-card" style="margin-top: 1.25rem;">
-          <h3>Game Development</h3>
-          <p>Prototypes, experiments, and ideas for games built around things that actually matter — emotion, creativity, weird little mechanics, and moments that feel real. Nothing polished yet. Just sparks being tested to see which ones hold fire.</p>
-          <a href="game-development.html" class="button secondary" style="margin-top: 1rem; display: inline-block;">Open Project</a>
-        </div>
- 
-        <div class="project-card" style="margin-top: 1.25rem;">
-          <h3>Community Building</h3>
-          <p>The Corner isn't meant to just be my space — it's meant to grow into something shared. This is where that takes shape: videos, streams, events, updates, and creative hangouts for anyone who wants a seat at the table.</p>
-          <a href="community-building.html" class="button secondary" style="margin-top: 1rem; display: inline-block;">Open Project</a>
-        </div>
- 
-      </div>
- 
-    </section>
-  </main>
- 
-  <footer>
-    <nav class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
+      <a href="community-building.html">Community</a>
       <a href="support.html">Support</a>
       <a href="contact.html">Contact</a>
     </nav>
     <img src="images/Small Circle CCC.png" alt="Crowley's Creative Corner logo" class="footer-logo" />
-    <p style="text-align:center; color: var(--muted-text); font-size: 0.85rem; padding-bottom: 1.5rem;">© 2026 Crowley's Creative Corner. Built one quest at a time.</p>
+    <p style="text-align:center; color: var(--muted-text); font-size: 0.85rem; padding-bottom: 1.5rem;">&copy; 2026 Crowley's Creative Corner. Built one quest at a time.</p>
   </footer>
- 
 </body>
 </html>
- 

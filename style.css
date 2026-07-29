@@ -490,3 +490,193 @@ nav {
 nav a {
   text-align: center;
 }
+
+/* ---------- Projects Refresh / Quest Log #3 ---------- */
+.page-section > h1 {
+  color: var(--gold);
+  font-size: 2.4rem;
+  line-height: 1.15;
+  text-align: center;
+  margin: 0 0 1rem;
+  text-shadow: 0 0 8px var(--shadow-gold);
+}
+
+.page-intro {
+  max-width: 820px;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+  margin-top: 2rem;
+}
+
+.project-grid .project-card,
+.project-card-secondary {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-category {
+  color: var(--gold-soft) !important;
+  font-size: 0.86rem !important;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.45rem !important;
+  text-transform: uppercase;
+}
+
+.project-status {
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 0.45rem 0.7rem;
+  margin: 0 0 1rem !important;
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  background-color: rgba(214, 168, 79, 0.12);
+  color: var(--parchment) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.status-label {
+  color: var(--gold-soft);
+  font-weight: bold;
+}
+
+.project-card .button {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.workshop-growth {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.section-intro {
+  max-width: 720px;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+
+.development-logs {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.development-note {
+  margin-bottom: 1.25rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.development-note h3 {
+  margin-top: 0;
+  font-size: 1.35rem;
+}
+
+.text-link {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-weight: bold;
+}
+
+.community-page .content-box {
+  max-width: 820px;
+}
+
+.community-page .content-box > h2 {
+  text-align: left;
+}
+
+.community-note {
+  margin: 1.5rem 0 0;
+}
+
+.community-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.community-details > div {
+  padding: 1rem;
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  background-color: rgba(214, 168, 79, 0.08);
+}
+
+.community-details strong,
+.community-details span {
+  display: block;
+}
+
+.community-details strong {
+  color: var(--gold-soft);
+  margin-bottom: 0.35rem;
+}
+
+.community-details span {
+  color: var(--muted-text);
+}
+
+.lantern-service h3 {
+  margin-top: 1.5rem;
+}
+
+.quest-log-entry {
+  margin-bottom: 2rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.quest-log-entry h2 {
+  text-align: left;
+  line-height: 1.25;
+}
+
+.quest-date {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--muted-text);
+  font-size: 0.85rem;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.quest-entry-note {
+  margin: 0 0 1.5rem;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--gold-soft);
+  outline-offset: 3px;
+}
+
+@media (max-width: 800px) {
+  .main-nav {
+    flex-wrap: wrap;
+  }
+
+  .page-section > h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .page-section {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
