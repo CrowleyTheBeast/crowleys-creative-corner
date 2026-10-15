@@ -10,7 +10,10 @@
     .game-page main { max-width: 1240px; }
     .game-frame-wrap {
       position: relative;
-      width: 100%;
+      /* Fill the column, but never taller than the browser window. */
+      width: min(100%, calc((100vh - 120px) * 16 / 9));
+      min-width: min(100%, 480px);
+      margin: 0 auto;
       aspect-ratio: 16 / 9;
       background: #08030c;
       border: 1px solid var(--border-gold);
@@ -19,6 +22,20 @@
       box-shadow: 0 0 18px rgba(0, 0, 0, 0.35);
     }
     .game-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+    /* Full window: the game covers the whole browser tab without going fullscreen. */
+    .game-frame-wrap.full-window {
+      position: fixed; inset: 0; z-index: 1000;
+      width: 100vw; height: 100vh; height: 100dvh; min-width: 0;
+      aspect-ratio: auto; margin: 0;
+      border: 0; border-radius: 0; box-shadow: none;
+    }
+    body.game-full-window { overflow: hidden; }
+    .exit-full-window {
+      display: none;
+      position: absolute; top: 10px; right: 10px; z-index: 2;
+      padding: 0.4rem 0.9rem; font-size: 0.85rem; opacity: 0.85;
+    }
+    .game-frame-wrap.full-window .exit-full-window { display: inline-block; }
     .game-start {
       position: absolute; inset: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
@@ -59,9 +76,11 @@
           <p class="game-mobile-note">Abyss Guardians needs a keyboard and mouse, so it won't play well on a phone or tablet.</p>
           <button type="button" id="play-button">Play in your browser</button>
         </div>
+        <button type="button" class="button exit-full-window" id="exit-full-window">Exit full window</button>
       </div>
 
       <div class="button-row">
+        <button type="button" class="button secondary" id="full-window-button">Full window</button>
         <button type="button" class="button secondary" id="fullscreen-button">Fullscreen</button>
         <a href="projects.html#abyss-guardians-development-log" class="button secondary">Read the Development Log</a>
       </div>
@@ -99,7 +118,7 @@
       frame.title = "Abyss Guardians: Low Poly";
       frame.allow = "autoplay; fullscreen; gamepad";
       frame.setAttribute("allowfullscreen", "");
-      wrap.appendChild(frame);
+      wrap.insertBefore(frame, wrap.firstChild);
       document.getElementById("game-start").remove();
       frame.addEventListener("load", function () { frame.focus(); });
       return frame;
@@ -109,6 +128,21 @@
     document.getElementById("fullscreen-button").addEventListener("click", function () {
       var f = startGame();
       if (f.requestFullscreen) f.requestFullscreen();
+    });
+
+    // Full window: the game fills the browser tab. Esc belongs to the game (pause),
+    // so leaving is done with the Exit full window button in the corner.
+    function setFullWindow(on) {
+      wrap.classList.toggle("full-window", on);
+      document.body.classList.toggle("game-full-window", on);
+      if (frame) frame.focus();
+    }
+    document.getElementById("full-window-button").addEventListener("click", function () {
+      startGame();
+      setFullWindow(true);
+    });
+    document.getElementById("exit-full-window").addEventListener("click", function () {
+      setFullWindow(false);
     });
   </script>
 </body>
