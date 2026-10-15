@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play Abyss Guardians | Crowley's Creative Corner</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Page-only styles so style.css stays untouched. */
+    .game-page main { max-width: 1240px; }
+    .game-frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #08030c;
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.35);
+    }
+    .game-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+    .game-start {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+      background: radial-gradient(circle at 50% 40%, #2b2140 0%, #08030c 75%);
+      text-align: center; padding: 1.5rem;
+    }
+    .game-start p { color: var(--muted-text); margin: 0; max-width: 520px; }
+    .game-controls { text-align: center; color: var(--muted-text); font-size: 0.95rem; margin-top: 1rem; }
+    .game-mobile-note { display: none; }
+    @media (hover: none) and (pointer: coarse) { .game-mobile-note { display: block; } }
+  </style>
+</head>
+<body class="game-page">
+  <header class="site-header">
+    <div class="top-image">
+      <img src="images/Banner for top of the website.png" alt="Crowley's Creative Corner" />
+    </div>
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="quest-log.html">Quest Log</a>
+      <a href="explore.html">Explore</a>
+      <a href="community-building.html">Community</a>
+      <a href="support.html">Support</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <h2>Abyss Guardians: Low Poly</h2>
+      <p style="text-align:center;">Hold the twin towers above the abyss. A work-in-progress browser build, straight from the workshop.</p>
+
+      <div class="game-frame-wrap" id="game-wrap">
+        <div class="game-start" id="game-start">
+          <p>The game is about 45 MB, so it loads when you choose to play.</p>
+          <p class="game-mobile-note">Abyss Guardians needs a keyboard and mouse, so it won't play well on a phone or tablet.</p>
+          <button type="button" id="play-button">Play in your browser</button>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button type="button" class="button secondary" id="fullscreen-button">Fullscreen</button>
+        <a href="projects.html#abyss-guardians-development-log" class="button secondary">Read the Development Log</a>
+      </div>
+
+      <p class="game-controls">WASD move · Mouse aim · Left click fire · Space jump · Shift sprint · Esc pause</p>
+    </section>
+  </main>
+
+  <footer>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="quest-log.html">Quest Log</a>
+      <a href="explore.html">Explore</a>
+      <a href="community-building.html">Community</a>
+      <a href="support.html">Support</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <img src="images/Small Circle CCC.png" alt="Crowley's Creative Corner logo" class="footer-logo" />
+    <p style="text-align:center; color: var(--muted-text); font-size: 0.85rem; padding-bottom: 1.5rem;">&copy; 2026 Crowley's Creative Corner. Built one quest at a time.</p>
+  </footer>
+
+  <script>
+    // Where the game files live (Cloudflare R2 bucket on its own subdomain).
+    var GAME_URL = "https://games.crowleyscreativecorner.com/abyss-guardians/index.html";
+
+    var wrap = document.getElementById("game-wrap");
+    var frame = null;
+
+    function startGame() {
+      if (frame) return frame;
+      frame = document.createElement("iframe");
+      frame.src = GAME_URL;
+      frame.title = "Abyss Guardians: Low Poly";
+      frame.allow = "autoplay; fullscreen; gamepad";
+      frame.setAttribute("allowfullscreen", "");
+      wrap.appendChild(frame);
+      document.getElementById("game-start").remove();
+      frame.addEventListener("load", function () { frame.focus(); });
+      return frame;
+    }
+
+    document.getElementById("play-button").addEventListener("click", startGame);
+    document.getElementById("fullscreen-button").addEventListener("click", function () {
+      var f = startGame();
+      if (f.requestFullscreen) f.requestFullscreen();
+    });
+  </script>
+</body>
+</html>
