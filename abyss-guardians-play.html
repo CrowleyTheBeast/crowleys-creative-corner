@@ -44,6 +44,9 @@
     }
     .game-start p { color: var(--muted-text); margin: 0; max-width: 520px; }
     .game-controls { text-align: center; color: var(--muted-text); font-size: 0.95rem; margin-top: 1rem; }
+    /* <button>s don't inherit the page font by default; match the site's link buttons. */
+    .game-page button { font-family: inherit; }
+    .view-buttons { margin-top: 1.25rem; }
     .game-mobile-note { display: none; }
     @media (hover: none) and (pointer: coarse) { .game-mobile-note { display: block; } }
   </style>
@@ -80,12 +83,15 @@
       </div>
 
       <div class="button-row">
-        <button type="button" class="button secondary" id="full-window-button">Full window</button>
-        <button type="button" class="button secondary" id="fullscreen-button">Fullscreen</button>
         <a href="projects.html#abyss-guardians-development-log" class="button secondary">Read the Development Log</a>
       </div>
 
       <p class="game-controls">WASD move · Mouse aim · Left click fire · Space jump · Shift sprint · Esc pause</p>
+
+      <div class="button-row view-buttons">
+        <button type="button" class="button secondary" id="full-window-button">Full window</button>
+        <button type="button" class="button secondary" id="fullscreen-button">Fullscreen</button>
+      </div>
     </section>
   </main>
 
