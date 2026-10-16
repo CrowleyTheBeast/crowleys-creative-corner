@@ -46,7 +46,25 @@
     .game-controls { text-align: center; color: var(--muted-text); font-size: 0.95rem; margin-top: 1rem; }
     /* <button>s don't inherit the page font by default; match the site's link buttons. */
     .game-page button { font-family: inherit; }
-    .view-buttons { margin-top: 1.25rem; }
+    .community-buttons { margin-top: 1.25rem; }
+    .comment-box { max-width: 640px; margin: 1.5rem auto 0; }
+    .comment-box[hidden] { display: none; }
+    .comment-box h3 { color: var(--gold); margin-top: 0; }
+    .comment-box label { display: block; color: var(--parchment); font-weight: bold; margin: 1rem 0 0.35rem; }
+    .comment-box input,
+    .comment-box textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--parchment);
+      background: var(--bg-card-soft);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 0.65rem 0.8rem;
+    }
+    .comment-box textarea { min-height: 150px; resize: vertical; }
+    .comment-box input:focus,
+    .comment-box textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+    .comment-note { font-size: 0.9rem; margin-top: 1rem; }
     .game-mobile-note { display: none; }
     @media (hover: none) and (pointer: coarse) { .game-mobile-note { display: block; } }
   </style>
@@ -83,15 +101,30 @@
       </div>
 
       <div class="button-row">
+        <button type="button" class="button secondary" id="full-window-button">Full window</button>
+        <button type="button" class="button secondary" id="fullscreen-button">Fullscreen</button>
         <a href="projects.html#abyss-guardians-development-log" class="button secondary">Read the Development Log</a>
       </div>
 
       <p class="game-controls">WASD move · Mouse aim · Left click fire · Space jump · Shift sprint · Esc pause</p>
 
-      <div class="button-row view-buttons">
-        <button type="button" class="button secondary" id="full-window-button">Full window</button>
-        <button type="button" class="button secondary" id="fullscreen-button">Fullscreen</button>
+      <div class="button-row community-buttons">
+        <button type="button" class="button" id="comment-button" aria-expanded="false" aria-controls="comment-box">Leave a comment</button>
+        <a href="support.html" class="button">Support me</a>
       </div>
+
+      <form class="content-box comment-box" id="comment-box" hidden>
+        <h3>Tell me what you think</h3>
+        <p>Bugs, ideas, the wave that broke you, what you loved. Honest and kind is perfect.</p>
+        <label for="comment-name">Your name (optional)</label>
+        <input type="text" id="comment-name" autocomplete="name" />
+        <label for="comment-message">Your comment</label>
+        <textarea id="comment-message" required></textarea>
+        <div class="button-row" style="margin-top: 1.25rem;">
+          <button type="submit" class="button">Send comment</button>
+        </div>
+        <p class="comment-note">Sending opens your email app with your comment ready to go. No email app? Send it to <a href="mailto:crowleyscreativecorner@gmail.com">crowleyscreativecorner@gmail.com</a>.</p>
+      </form>
     </section>
   </main>
 
@@ -149,6 +182,25 @@
     });
     document.getElementById("exit-full-window").addEventListener("click", function () {
       setFullWindow(false);
+    });
+
+    // Comment box: opens the visitor's email app with the comment filled in.
+    var commentButton = document.getElementById("comment-button");
+    var commentBox = document.getElementById("comment-box");
+    commentButton.addEventListener("click", function () {
+      commentBox.hidden = !commentBox.hidden;
+      commentButton.setAttribute("aria-expanded", String(!commentBox.hidden));
+      if (!commentBox.hidden) document.getElementById("comment-message").focus();
+    });
+    commentBox.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var name = document.getElementById("comment-name").value.trim();
+      var message = document.getElementById("comment-message").value.trim();
+      if (!message) return;
+      var body = message + (name ? "\n\n- " + name : "");
+      window.location.href = "mailto:crowleyscreativecorner@gmail.com"
+        + "?subject=" + encodeURIComponent("Abyss Guardians comment")
+        + "&body=" + encodeURIComponent(body);
     });
   </script>
 </body>
