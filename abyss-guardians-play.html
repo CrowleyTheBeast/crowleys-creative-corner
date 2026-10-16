@@ -116,14 +116,19 @@
       <form class="content-box comment-box" id="comment-box" hidden>
         <h3>Tell me what you think</h3>
         <p>Bugs, ideas, the wave that broke you, what you loved. Honest and kind is perfect.</p>
-        <label for="comment-name">Your name (optional)</label>
-        <input type="text" id="comment-name" autocomplete="name" />
+        <label for="comment-name">Your name (optional, leave blank to stay anonymous)</label>
+        <input type="text" id="comment-name" autocomplete="name" maxlength="80" />
         <label for="comment-message">Your comment</label>
-        <textarea id="comment-message" required></textarea>
-        <div class="button-row" style="margin-top: 1.25rem;">
-          <button type="submit" class="button">Send comment</button>
+        <textarea id="comment-message" required maxlength="5000"></textarea>
+        <!-- Hidden from people; bots that fill it in are ignored. -->
+        <div style="position:absolute; left:-9999px;" aria-hidden="true">
+          <label for="comment-website">Website</label>
+          <input type="text" id="comment-website" tabindex="-1" autocomplete="off" />
         </div>
-        <p class="comment-note">Sending opens your email app with your comment ready to go. No email app? Send it to <a href="mailto:crowleyscreativecorner@gmail.com">crowleyscreativecorner@gmail.com</a>.</p>
+        <div class="button-row" style="margin-top: 1.25rem;">
+          <button type="submit" class="button" id="comment-send">Send comment</button>
+        </div>
+        <p class="comment-note" id="comment-status" role="status" aria-live="polite"></p>
       </form>
     </section>
   </main>
@@ -184,7 +189,7 @@
       setFullWindow(false);
     });
 
-    // Comment box: opens the visitor's email app with the comment filled in.
+    // Comment box: sends the comment to Nik's inbox through the site's /api/comment.
     var commentButton = document.getElementById("comment-button");
     var commentBox = document.getElementById("comment-box");
     commentButton.addEventListener("click", function () {
@@ -192,15 +197,38 @@
       commentButton.setAttribute("aria-expanded", String(!commentBox.hidden));
       if (!commentBox.hidden) document.getElementById("comment-message").focus();
     });
+    var commentStatus = document.getElementById("comment-status");
+    var commentSend = document.getElementById("comment-send");
     commentBox.addEventListener("submit", function (event) {
       event.preventDefault();
-      var name = document.getElementById("comment-name").value.trim();
-      var message = document.getElementById("comment-message").value.trim();
+      var messageField = document.getElementById("comment-message");
+      var message = messageField.value.trim();
       if (!message) return;
-      var body = message + (name ? "\n\n- " + name : "");
-      window.location.href = "mailto:crowleyscreativecorner@gmail.com"
-        + "?subject=" + encodeURIComponent("Abyss Guardians comment")
-        + "&body=" + encodeURIComponent(body);
+      commentSend.disabled = true;
+      commentStatus.textContent = "Sending…";
+      fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          game: "Abyss Guardians",
+          name: document.getElementById("comment-name").value.trim(),
+          message: message,
+          website: document.getElementById("comment-website").value
+        })
+      })
+        .then(function (res) { return res.json().catch(function () { return { ok: false }; }); })
+        .then(function (result) {
+          if (result.ok) {
+            messageField.value = "";
+            commentStatus.textContent = "Thank you! Your comment is on its way to me.";
+          } else {
+            commentStatus.textContent = result.error || "Your comment couldn't be sent right now. Please try again later.";
+          }
+        })
+        .catch(function () {
+          commentStatus.textContent = "Your comment couldn't be sent right now. Please try again later.";
+        })
+        .finally(function () { commentSend.disabled = false; });
     });
   </script>
 </body>

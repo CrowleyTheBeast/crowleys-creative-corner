@@ -1,13 +1,23 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "crowleys-creative-corner",
+  "main": "worker.js",
   "compatibility_date": "2026-06-02",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
+  // Game comments from the play page are emailed here (needs Email Routing on
+  // the domain with this destination address verified).
+  "send_email": [
+    {
+      "name": "COMMENT_EMAIL",
+      "destination_address": "crowleyscreativecorner@gmail.com"
+    }
+  ],
   "compatibility_flags": [
     "nodejs_compat"
   ]
