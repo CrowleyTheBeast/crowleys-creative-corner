@@ -44,6 +44,27 @@
     }
     .game-start p { color: var(--muted-text); margin: 0; max-width: 520px; }
     .game-controls { text-align: center; color: var(--muted-text); font-size: 0.95rem; margin-top: 1rem; }
+    /* <button>s don't inherit the page font by default; match the site's link buttons. */
+    .game-page button { font-family: inherit; }
+    .community-buttons { margin-top: 1.25rem; }
+    .comment-box { max-width: 640px; margin: 1.5rem auto 0; }
+    .comment-box[hidden] { display: none; }
+    .comment-box h3 { color: var(--gold); margin-top: 0; }
+    .comment-box label { display: block; color: var(--parchment); font-weight: bold; margin: 1rem 0 0.35rem; }
+    .comment-box input,
+    .comment-box textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--parchment);
+      background: var(--bg-card-soft);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 0.65rem 0.8rem;
+    }
+    .comment-box textarea { min-height: 150px; resize: vertical; }
+    .comment-box input:focus,
+    .comment-box textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+    .comment-note { font-size: 0.9rem; margin-top: 1rem; }
     .game-mobile-note { display: none; }
     @media (hover: none) and (pointer: coarse) { .game-mobile-note { display: block; } }
   </style>
@@ -86,6 +107,29 @@
       </div>
 
       <p class="game-controls">WASD move · Mouse aim · Left click fire · Space jump · Shift sprint · Esc pause</p>
+
+      <div class="button-row community-buttons">
+        <button type="button" class="button" id="comment-button" aria-expanded="false" aria-controls="comment-box">Leave a comment</button>
+        <a href="support.html" class="button">Support me</a>
+      </div>
+
+      <form class="content-box comment-box" id="comment-box" hidden>
+        <h3>Tell me what you think</h3>
+        <p>Bugs, ideas, the wave that broke you, what you loved. Honest and kind is perfect.</p>
+        <label for="comment-name">Your name (optional, leave blank to stay anonymous)</label>
+        <input type="text" id="comment-name" autocomplete="name" maxlength="80" />
+        <label for="comment-message">Your comment</label>
+        <textarea id="comment-message" required maxlength="5000"></textarea>
+        <!-- Hidden from people; bots that fill it in are ignored. -->
+        <div style="position:absolute; left:-9999px;" aria-hidden="true">
+          <label for="comment-website">Website</label>
+          <input type="text" id="comment-website" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="button-row" style="margin-top: 1.25rem;">
+          <button type="submit" class="button" id="comment-send">Send comment</button>
+        </div>
+        <p class="comment-note" id="comment-status" role="status" aria-live="polite"></p>
+      </form>
     </section>
   </main>
 
@@ -143,6 +187,48 @@
     });
     document.getElementById("exit-full-window").addEventListener("click", function () {
       setFullWindow(false);
+    });
+
+    // Comment box: sends the comment to Nik's inbox through the site's /api/comment.
+    var commentButton = document.getElementById("comment-button");
+    var commentBox = document.getElementById("comment-box");
+    commentButton.addEventListener("click", function () {
+      commentBox.hidden = !commentBox.hidden;
+      commentButton.setAttribute("aria-expanded", String(!commentBox.hidden));
+      if (!commentBox.hidden) document.getElementById("comment-message").focus();
+    });
+    var commentStatus = document.getElementById("comment-status");
+    var commentSend = document.getElementById("comment-send");
+    commentBox.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var messageField = document.getElementById("comment-message");
+      var message = messageField.value.trim();
+      if (!message) return;
+      commentSend.disabled = true;
+      commentStatus.textContent = "Sending…";
+      fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          game: "Abyss Guardians",
+          name: document.getElementById("comment-name").value.trim(),
+          message: message,
+          website: document.getElementById("comment-website").value
+        })
+      })
+        .then(function (res) { return res.json().catch(function () { return { ok: false }; }); })
+        .then(function (result) {
+          if (result.ok) {
+            messageField.value = "";
+            commentStatus.textContent = "Thank you! Your comment is on its way to me.";
+          } else {
+            commentStatus.textContent = result.error || "Your comment couldn't be sent right now. Please try again later.";
+          }
+        })
+        .catch(function () {
+          commentStatus.textContent = "Your comment couldn't be sent right now. Please try again later.";
+        })
+        .finally(function () { commentSend.disabled = false; });
     });
   </script>
 </body>
