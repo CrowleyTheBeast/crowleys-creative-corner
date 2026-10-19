@@ -96,8 +96,6 @@
           <p>The game is about 45 MB, so it loads when you choose to play.</p>
           <p class="game-mobile-note">On a phone or tablet the game shows touch buttons, but a keyboard and mouse play best.</p>
           <button type="button" id="play-button">Play in your browser</button>
-          <button type="button" id="online-button">Play online with someone</button>
-          <p class="game-online-note" id="online-note">Online co-op pairs you with another player. If nobody is waiting, you start a game and they join you.</p>
         </div>
         <button type="button" class="button exit-full-window" id="exit-full-window">Exit full window</button>
       </div>
@@ -157,18 +155,17 @@
     var wrap = document.getElementById("game-wrap");
     var frame = null;
 
-    // ?join=CODE on this page (a friend's shared link) goes straight to their game.
+    // ?join=CODE on this page (the link the game shows a host) drops a friend
+    // straight into that game on Tower 1.
     var joinCode = (new URLSearchParams(window.location.search).get("join") || "").replace(/[^A-Za-z0-9]/g, "").slice(0, 5);
     if (joinCode) {
-      document.getElementById("online-button").textContent = "Join your friend's game (" + joinCode.toUpperCase() + ")";
-      document.getElementById("online-note").textContent = "Your friend's game is waiting for you on Tower 1.";
+      document.getElementById("play-button").textContent = "Join your friend's game (" + joinCode.toUpperCase() + ")";
     }
 
-    // query: "" plays normally, "?mp=quick" opens Quick Match, "?join=CODE" joins a friend.
-    function startGame(query) {
+    function startGame() {
       if (frame) return frame;
       frame = document.createElement("iframe");
-      frame.src = GAME_URL + (typeof query === "string" ? query : "");
+      frame.src = GAME_URL + (joinCode ? "?join=" + joinCode : "");
       frame.title = "Abyss Guardians: Low Poly";
       frame.allow = "autoplay; fullscreen; gamepad";
       frame.setAttribute("allowfullscreen", "");
@@ -178,10 +175,7 @@
       return frame;
     }
 
-    document.getElementById("play-button").addEventListener("click", function () { startGame(""); });
-    document.getElementById("online-button").addEventListener("click", function () {
-      startGame(joinCode ? "?join=" + joinCode : "?mp=quick");
-    });
+    document.getElementById("play-button").addEventListener("click", startGame);
     document.getElementById("fullscreen-button").addEventListener("click", function () {
       var f = startGame();
       if (f.requestFullscreen) f.requestFullscreen();
