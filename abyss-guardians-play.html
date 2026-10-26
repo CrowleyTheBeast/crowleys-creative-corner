@@ -65,6 +65,36 @@
     .comment-box input:focus,
     .comment-box textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
     .comment-note { font-size: 0.9rem; margin-top: 1rem; }
+    /* Alpha notice: a small badge by the title and one calm line under the subtitle. */
+    .stage-badge {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 0.6rem;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.14em;
+      line-height: 1.2;
+      color: var(--gold-soft);
+      background: rgba(214, 168, 79, 0.12);
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      position: relative;
+      top: -0.15em;
+    }
+    .alpha-notice {
+      max-width: 720px;
+      margin: -0.25rem auto 1.25rem;
+      padding: 0.6rem 1rem;
+      text-align: center;
+      font-size: 0.92rem;
+      color: var(--muted-text);
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+    }
+    .alpha-notice strong { color: var(--gold); letter-spacing: 0.04em; }
+    .alpha-notice a { color: var(--gold-soft); }
     .game-mobile-note { display: none; }
     @media (hover: none) and (pointer: coarse) { .game-mobile-note { display: block; } }
   </style>
@@ -88,8 +118,9 @@
 
   <main>
     <section class="page-section">
-      <h2>Abyss Guardians: Low Poly</h2>
+      <h2>Abyss Guardians: Low Poly <span class="stage-badge">ALPHA</span></h2>
       <p style="text-align:center;">Hold the twin towers above the abyss. A work-in-progress browser build, straight from the workshop.</p>
+      <p class="alpha-notice"><strong>Alpha build.</strong> You may run into bugs, and mechanics, balance and visuals will change as development continues. See what's new in the <a href="projects.html#abyss-guardians-development-log">Development Log</a>.</p>
 
       <div class="game-frame-wrap" id="game-wrap">
         <div class="game-start" id="game-start">
